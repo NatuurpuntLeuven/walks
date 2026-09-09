@@ -1,6 +1,6 @@
 # Leuven Nature Walks
 
-Leuven Nature Walks is a community project by Natuurpunt Leuven that helps residents and visitors discover six beautiful walking routes in and around Leuven. Some of the natural areas along these routes are managed wholly or partly by Natuurpunt.
+Leuven Nature Walks is a community project by Natuurpunt Leuven that helps residents and visitors discover seven beautiful walking routes in and around Leuven. Some of the natural areas along these routes are managed wholly or partly by Natuurpunt.
 
 The multilingual, map-based website will provide route descriptions, practical information, GPS guidance and downloadable GPX files. It is designed to be accessible to everyone, including newcomers who are not yet familiar with Leuven.
 
