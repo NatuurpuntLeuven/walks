@@ -1,0 +1,9 @@
+# Sleutels in dit bestand moeten overeenkomen met vaste `poi_id`-waarden in poi.geojson.
+# Voorbeeld:
+# start-wijgmaalbroek:
+#   title: Vertrekpunt Wijgmaalbroek
+#   description: De wandeling start hier.
+#   imageAlt: Zicht op het vertrekpunt
+#   audio: audio/nl/start-wijgmaalbroek.mp3
+#   transcript: De wandeling start hier.
+{}

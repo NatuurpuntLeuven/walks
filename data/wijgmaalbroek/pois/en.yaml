@@ -1,0 +1,9 @@
+# Keys in this file must match stable `poi_id` values in poi.geojson.
+# Example:
+# start-wijgmaalbroek:
+#   title: Wijgmaalbroek starting point
+#   description: The walk starts here.
+#   imageAlt: View of the starting point
+#   audio: audio/en/start-wijgmaalbroek.mp3
+#   transcript: The walk starts here.
+{}

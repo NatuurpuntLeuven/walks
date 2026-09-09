@@ -1,0 +1,19 @@
+{
+  "id": "wijgmaalbroek",
+  "routeNumber": 1,
+  "status": "draft",
+  "distanceKm": null,
+  "durationMinutes": null,
+  "difficulty": null,
+  "surface": [],
+  "accessibility": [],
+  "lastVerified": null,
+  "files": {
+    "route": "route.geojson",
+    "pois": "poi.geojson",
+    "gpx": "route_download.gpx"
+  },
+  "media": {
+    "heroImage": null
+  }
+}
