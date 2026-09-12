@@ -1,0 +1,181 @@
+---
+import startImage from "../../data/wijgmaalbroek/images/park_bank.jpeg";
+import owlImage from "../../data/wijgmaalbroek/images/poi/steenuil.webp";
+import butterflyImage from "../../data/wijgmaalbroek/images/poi/icarusblauwtje.webp";
+import cuckooImage from "../../data/wijgmaalbroek/images/poi/koekoek.webp";
+import uiNl from "../i18n/ui.nl.json";
+import uiEn from "../i18n/ui.en.json";
+import { loadWijgmaalbroekPois, loadWijgmaalbroekRoute, wijgmaalbroekStories } from "../data/wijgmaalbroek";
+import { sitePath } from "../lib/urls";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "./SiteHeader.astro";
+import SiteFooter from "./SiteFooter.astro";
+
+interface Props {
+  lang: "nl" | "en";
+}
+
+const { lang } = Astro.props;
+const ui = lang === "nl" ? uiNl : uiEn;
+const stories = wijgmaalbroekStories[lang];
+const routeGeoJson = await loadWijgmaalbroekRoute();
+const poiGeoJson = await loadWijgmaalbroekPois();
+const pagePath = sitePath(lang === "nl" ? "wijgmaalbroek/" : "en/wijgmaalbroek/");
+const alternatePath = sitePath(lang === "nl" ? "en/wijgmaalbroek/" : "wijgmaalbroek/");
+const homePath = sitePath(lang === "nl" ? "" : "en/");
+const mapStrings = lang === "nl"
+  ? { mapTitle: "Kaart van Wijgmaalbroek", showLocation: "Toon mijn locatie", loading: "Kaart wordt geladen…", locationLoading: "Je locatie wordt bepaald…", locationFound: "Je locatie staat op de kaart.", locationUnavailable: "Je locatie kon niet worden bepaald.", route: "Wandelroute" }
+  : { mapTitle: "Map of Wijgmaalbroek", showLocation: "Show my location", loading: "Loading map…", locationLoading: "Determining your location…", locationFound: "Your location is shown on the map.", locationUnavailable: "Your location could not be determined.", route: "Walking route" };
+const pageCopy = lang === "nl"
+  ? { eyebrow: "Wandeling 01 · Dijlevallei", title: "Wijgmaalbroek", intro: "Volg het ritme van water, grasland en struiken. Onderweg vertellen vier plekken iets meer over dit stukje Dijlevallei.", mapEyebrow: "Verken onderweg", mapTitle: "Vier verhalen op de kaart", mapText: "Tik op een punt of kies een verhaal hieronder. Je locatie blijft alleen op je toestel.", storiesEyebrow: "Luister en kijk", storiesTitle: "Vier plekken om even stil te staan", listen: "Beluister dit verhaal", stop: "Stop voorlezen", voiceNote: "Voorlezen gebeurt met de stem die op je toestel beschikbaar is.", openStory: "Bekijk dit verhaal" }
+  : { eyebrow: "Walk 01 · Dijle valley", title: "Wijgmaalbroek", intro: "Follow the rhythm of water, grassland and shrubs. Along the way, four places reveal more about this corner of the Dijle valley.", mapEyebrow: "Explore as you go", mapTitle: "Four stories on the map", mapText: "Tap a point or choose a story below. Your location stays on your device.", storiesEyebrow: "Listen and look", storiesTitle: "Four places to pause", listen: "Listen to this story", stop: "Stop reading", voiceNote: "Reading uses a voice available on your device.", openStory: "View this story" };
+const imageById = {
+  "start-wijgmaalbroek": startImage,
+  steenuil: owlImage,
+  icarusblauwtje: butterflyImage,
+  koekoek: cuckooImage
+};
+---
+
+<BaseLayout lang={lang} title={`${pageCopy.title} | Natuurpunt Leuven`} description={pageCopy.intro} canonicalPath={pagePath} alternatePath={alternatePath}>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  </Fragment>
+
+  <SiteHeader lang={lang} page="walk" />
+
+  <main id="main-content" class="walk-page">
+    <section class="walk-page-intro">
+      <div class="shell walk-page-intro__grid">
+        <div class="section-intro section-intro--wide">
+          <a class="back-link" href={`${homePath}#walks`}>← {ui["navigation.walks"]}</a>
+          <p class="eyebrow">{pageCopy.eyebrow}</p>
+          <h1>{pageCopy.title}</h1>
+          <p>{pageCopy.intro}</p>
+        </div>
+        <div class="walk-page-intro__counter" aria-label={pageCopy.mapTitle}>
+          <strong>4</strong>
+          <span>{lang === "nl" ? "luisterplekken onderweg" : "listening stops along the way"}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="walk-map-section">
+      <div class="shell walk-map-layout">
+        <div class="walk-map-copy">
+          <p class="eyebrow">{pageCopy.mapEyebrow}</p>
+          <h2>{pageCopy.mapTitle}</h2>
+          <p>{pageCopy.mapText}</p>
+          <button class="button button--primary" id="show-walk-location" type="button"><span class="location-dot" aria-hidden="true"></span>{mapStrings.showLocation}</button>
+          <p class="walk-map-copy__note" id="walk-map-status" aria-live="polite">{mapStrings.loading}</p>
+        </div>
+        <div class="walk-map-frame">
+          <div id="walk-route-map" role="region" aria-label={mapStrings.mapTitle}></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section poi-stories" aria-labelledby="poi-stories-title">
+      <div class="shell">
+        <div class="section-intro section-intro--wide">
+          <p class="eyebrow">{pageCopy.storiesEyebrow}</p>
+          <h2 id="poi-stories-title">{pageCopy.storiesTitle}</h2>
+        </div>
+        <div class="poi-story-grid">
+          {stories.map((story, index) => {
+            const image = imageById[story.id];
+            return (
+              <article class="poi-story" id={`poi-${story.id}`} style={`--poi-image: url(${image.src})`}>
+                <div class="poi-story__content">
+                  <p class="poi-story__label"><span>{String(index + 1).padStart(2, "0")}</span>{story.label}</p>
+                  <h3>{story.title}</h3>
+                  <div class="poi-audio" data-audio-story data-language={lang} data-transcript={story.text}>
+                    <p class="poi-audio__transcript" data-transcript-display>{story.text}</p>
+                    <button class="poi-audio__button" type="button" data-speech-button aria-pressed="false">
+                      <span class="poi-audio__icon" aria-hidden="true">▶</span>
+                      <span data-speech-label>{pageCopy.listen}</span>
+                    </button>
+                    <p class="poi-audio__note">{pageCopy.voiceNote}</p>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter lang={lang} />
+
+  <script define:vars={{ routeGeoJson, poiGeoJson, stories, mapStrings, pageCopy }}>
+    const mapElement = document.getElementById("walk-route-map");
+    const statusElement = document.getElementById("walk-map-status");
+    const locationButton = document.getElementById("show-walk-location");
+    const Leaflet = window.L;
+
+    if (mapElement && Leaflet) {
+      const map = Leaflet.map(mapElement, { zoomControl: true, scrollWheelZoom: false });
+      Leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+      const routeHalo = Leaflet.geoJSON(routeGeoJson, { style: (feature) => ({ color: "#ffffff", weight: feature?.properties?.type === "Variant" ? 8 : 10, opacity: 0.95, dashArray: feature?.properties?.type === "Variant" ? "8 8" : undefined }) }).addTo(map);
+      Leaflet.geoJSON(routeGeoJson, { style: (feature) => ({ color: "#147a42", weight: feature?.properties?.type === "Variant" ? 3.5 : 5, opacity: 0.98, dashArray: feature?.properties?.type === "Variant" ? "8 8" : undefined, lineCap: "round", lineJoin: "round" }) }).addTo(map);
+      const storyForName = (name) => stories.find((story) => story.sourceName === name);
+      Leaflet.geoJSON(poiGeoJson, {
+        pointToLayer(feature, latlng) {
+          const story = storyForName(feature?.properties?.Name);
+          const index = stories.findIndex((item) => item.id === story?.id) + 1;
+          return Leaflet.marker(latlng, { icon: Leaflet.divIcon({ className: "walk-poi-marker-wrap", html: `<button class="walk-poi-marker" type="button" aria-label="${story?.title || feature?.properties?.Name || ""}">${index}</button>`, iconSize: [38, 38], iconAnchor: [19, 19] }) });
+        },
+        onEachFeature(feature, layer) {
+          const story = storyForName(feature?.properties?.Name);
+          if (!story) return;
+          layer.bindTooltip(story.title, { direction: "top", offset: [0, -20] });
+          layer.on("click", () => document.getElementById(`poi-${story.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }));
+        }
+      }).addTo(map);
+      if (routeHalo.getBounds().isValid()) map.fitBounds(routeHalo.getBounds(), { padding: [28, 28] });
+      statusElement.textContent = "";
+      let locationMarker;
+      let accuracyCircle;
+      map.on("locationfound", (event) => {
+        locationMarker?.remove(); accuracyCircle?.remove();
+        accuracyCircle = Leaflet.circle(event.latlng, { radius: event.accuracy, color: "#2463eb", weight: 1, fillColor: "#60a5fa", fillOpacity: 0.14 }).addTo(map);
+        locationMarker = Leaflet.circleMarker(event.latlng, { radius: 8, color: "#ffffff", weight: 3, fillColor: "#2463eb", fillOpacity: 1 }).addTo(map);
+        statusElement.textContent = mapStrings.locationFound; locationButton.disabled = false;
+      });
+      map.on("locationerror", () => { statusElement.textContent = mapStrings.locationUnavailable; locationButton.disabled = false; });
+      locationButton?.addEventListener("click", () => { statusElement.textContent = mapStrings.locationLoading; locationButton.disabled = true; map.locate({ setView: true, maxZoom: 16, enableHighAccuracy: true }); });
+      mapElement.addEventListener("focusin", () => map.scrollWheelZoom.enable());
+      mapElement.addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
+    }
+
+    let activeUtterance;
+    let activeStory;
+    const clearActiveStory = () => {
+      if (!activeStory) return;
+      const button = activeStory.querySelector("[data-speech-button]");
+      const label = activeStory.querySelector("[data-speech-label]");
+      if (button) { button.setAttribute("aria-pressed", "false"); button.querySelector(".poi-audio__icon").textContent = "▶"; }
+      if (label) label.textContent = pageCopy.listen;
+      activeStory = undefined; activeUtterance = undefined;
+    };
+    document.querySelectorAll("[data-audio-story]").forEach((storyElement) => {
+      const transcript = storyElement.dataset.transcript || "";
+      const language = storyElement.dataset.language || "nl";
+      const button = storyElement.querySelector("[data-speech-button]");
+      const label = storyElement.querySelector("[data-speech-label]");
+      button?.addEventListener("click", () => {
+        if (!("speechSynthesis" in window)) return;
+        if (activeStory === storyElement) { window.speechSynthesis.cancel(); clearActiveStory(); return; }
+        window.speechSynthesis.cancel(); clearActiveStory();
+        activeStory = storyElement;
+        const utterance = new SpeechSynthesisUtterance(transcript); activeUtterance = utterance; utterance.lang = language === "nl" ? "nl-BE" : "en-GB"; utterance.rate = 0.92;
+        const voice = window.speechSynthesis.getVoices().find((item) => item.lang.toLowerCase().startsWith(utterance.lang.slice(0, 2)));
+        if (voice) utterance.voice = voice;
+        button.setAttribute("aria-pressed", "true"); button.querySelector(".poi-audio__icon").textContent = "■"; if (label) label.textContent = pageCopy.stop;
+        utterance.onend = clearActiveStory; utterance.onerror = clearActiveStory; window.speechSynthesis.speak(utterance);
+      });
+    });
+  </script>
+</BaseLayout>

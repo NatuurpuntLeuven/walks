@@ -1,0 +1,25 @@
+---
+import contentNl from "../i18n/content.nl.json";
+import contentEn from "../i18n/content.en.json";
+
+interface Props {
+  lang: "nl" | "en";
+}
+
+const { lang } = Astro.props;
+const copy = lang === "nl" ? contentNl : contentEn;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell footer-inner">
+    <div>
+      <strong>Natuurpunt Leuven</strong>
+      <p>{copy.footer.tagline}</p>
+    </div>
+    <div class="footer-meta">
+      <p>{copy.footer.developmentNote}</p>
+      <p>© {year} Natuurpunt Leuven</p>
+    </div>
+  </div>
+</footer>

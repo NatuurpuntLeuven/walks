@@ -1,0 +1,113 @@
+{
+  "hero": {
+    "eyebrow": "7 wandelingen in en rond Leuven",
+    "title": "Natuur dichtbij. Wandelen doet goed.",
+    "primaryAction": "Ontdek de wandelingen",
+    "secondaryAction": "Open de overzichtskaart",
+    "healthAction": "Wandelen & gezondheid",
+    "imageAlt": "Bloemrijk grasland aan de rand van het Wijgmaalbroek",
+    "imageLabel": "Wijgmaalbroek",
+    "imageCredit": "Foto: Kevin Feytons"
+  },
+  "highlights": [
+    { "value": "7", "label": "uitgestippelde routes" },
+    { "value": "Leuven", "label": "natuur verrassend dichtbij" },
+    { "value": "Gratis", "label": "vrij te ontdekken" }
+  ],
+  "wellbeing": {
+    "eyebrow": "Natuur & welzijn",
+    "title": "Een kleine stap naar meer buiten",
+    "intro": "Regelmatig wandelen helpt je om meer te bewegen. De natuur biedt tegelijk ruimte om te vertragen, je aandacht te verleggen en je omgeving bewust te beleven.",
+    "movementTitle": "Bewegen op je eigen tempo",
+    "movementText": "Kies een wandeling die past bij je tijd en mogelijkheden. Binnenkort vind je per route afstand, duur, ondergrond en bereikbaarheid.",
+    "natureTitle": "Ruimte om waar te nemen",
+    "natureText": "Bossen, graslanden, vijvers en historisch groen nodigen uit om even los te komen van de drukte en het seizoen van dichtbij te ervaren.",
+    "action": "Ontdek wat onderzoek zegt"
+  },
+  "walks": {
+    "eyebrow": "Kies je wandeling",
+    "title": "Zeven manieren om Leuven anders te zien",
+    "intro": "De routes worden stap voor stap aangevuld met foto's, praktische informatie, interessante plekken en downloadbare GPX-bestanden.",
+    "status": "Route in voorbereiding",
+    "detailAction": "Verken deze wandeling",
+    "types": {
+      "wetlands": "Vallei & grasland",
+      "heritage": "Natuur & erfgoed",
+      "park": "Park & groen",
+      "forest": "Boswandeling",
+      "water": "Water & groen"
+    }
+  },
+  "mapTeaser": {
+    "eyebrow": "Alle routes in één oogopslag",
+    "title": "Waar wil je vandaag wandelen?",
+    "text": "Bekijk de zeven trajecten samen op de kaart. Zoom in, vergelijk de ligging en toon je eigen positie wanneer je onderweg bent.",
+    "action": "Bekijk de overzichtskaart"
+  },
+  "mapPage": {
+    "eyebrow": "Overzichtskaart",
+    "title": "Zeven wandelingen rond Leuven",
+    "intro": "Gebruik de kaart om de routes te vergelijken. De gestreepte lijn bij Wijgmaalbroek is een routevariant.",
+    "locationNote": "Je locatie wordt alleen op je toestel gebruikt om je positie op deze kaart te tonen.",
+    "mainRoute": "Hoofdroute",
+    "variant": "Variant",
+    "legendTitle": "Wandelingen"
+  },
+  "healthPage": {
+    "eyebrow": "Wandelen, natuur & welzijn",
+    "title": "Wat doet een wandeling in de natuur met je?",
+    "intro": "Wandelen is geen wondermiddel, maar wel een eenvoudige manier om in beweging te komen, buiten te zijn en je hoofd wat ruimte te geven. Dit is wat we met redelijke zekerheid uit onderzoek kunnen meenemen.",
+    "minuteValue": "150 min",
+    "minuteLabel": "matig intensief bewegen per week is een richtwaarde voor volwassenen.",
+    "minuteNote": "Volgens de Wereldgezondheidsorganisatie; elk beetje beweging telt.",
+    "factsEyebrow": "Onderzoek, zonder ingewikkeld gedoe",
+    "factsTitle": "Drie nuchtere weetjes",
+    "factsIntro": "De wetenschap over natuur en welzijn groeit. De resultaten zijn veelbelovend, maar niet magisch — en dat is eigenlijk goed nieuws: klein beginnen mag.",
+    "facts": [
+      {
+        "number": "01",
+        "title": "Beweging helpt óók je hoofd",
+        "text": "Regelmatig bewegen hangt samen met een beter mentaal welzijn, slaap en denkvermogen. Een stevige wandeling kan dus meer zijn dan vervoer van A naar B."
+      },
+      {
+        "number": "02",
+        "title": "Natuur geeft je wandeling iets extra's",
+        "text": "Een recente overzichtsstudie bundelde 57 onderzoeken en vond dat bewegen in een natuurlijke omgeving het mentaal welzijn kan versterken. Bossen, graslanden en water maken van buiten zijn dus een fijne bondgenoot."
+      },
+      {
+        "number": "03",
+        "title": "Plezier is een sterke bondgenoot",
+        "text": "Onderzoek naar wandelen in het groen ziet vaak meer plezier en een prettiger gevoel op korte termijn. Een route die je graag opnieuw kiest, is dus een mooie start."
+      }
+    ],
+    "tryEyebrow": "Probeer het eens",
+    "tryTitle": "Maak van je volgende wandeling een mini-pauze",
+    "tryText": "Geen prestatie, geen stopwatch. Kies één klein aandachtspunt en laat de route de rest doen.",
+    "trySteps": [
+      "Kies een route die past bij je tijd van vandaag.",
+      "Kijk onderweg bewust naar drie dingen die je nog niet had opgemerkt.",
+      "Stap op je eigen tempo en merk op hoe je je nadien voelt."
+    ],
+    "tryAction": "Kies een wandeling op de kaart",
+    "sourcesEyebrow": "Verder lezen",
+    "sourcesTitle": "Waar komen deze inzichten vandaan?",
+    "sourcesIntro": "We baseren deze pagina op gezaghebbende richtlijnen en systematische overzichtsstudies. Die bundelen resultaten uit meerdere onderzoeken en benoemen ook onzekerheden.",
+    "disclaimer": "Wandelen kan een waardevolle aanvulling zijn, maar vervangt geen professionele hulp bij mentale klachten.",
+    "sources": [
+      {
+        "title": "Wereldgezondheidsorganisatie — Physical activity (2024)",
+        "detail": "Over de gezondheidswinst van regelmatige lichaamsbeweging en de richtlijn voor volwassenen.",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity"
+      },
+      {
+        "title": "A systematic review and meta-analysis demonstrating a positive effect of green exercise interventions on mental well-being (2025)",
+        "detail": "Overzicht van 57 studies naar bewegen in de natuur en mentaal welzijn, met aandacht voor de grenzen van de vergelijking met binnen bewegen.",
+        "url": "https://doi.org/10.1016/j.cresp.2025.100244"
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Samen op weg naar meer natuurbeleving in Leuven.",
+    "developmentNote": "Deze website is in ontwikkeling. Route-informatie kan nog wijzigen."
+  }
+}

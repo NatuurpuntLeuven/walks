@@ -8,6 +8,20 @@ By encouraging people to walk and experience nature, the project aims to support
 
 The project is currently under development. Contributions, corrections and translations are welcome.
 
+## Website development
+
+The website is a static Astro project. Dutch is the default language and the
+English pages live below `/en/`. Both languages use the same components, route
+data and media.
+
+```text
+pnpm install
+pnpm dev
+```
+
+Create a production build with `pnpm build`. The generated site is written to
+`dist/` and is configured for the GitHub Pages project path `/walks/`.
+
 ## Repository structure
 
 Route geometry and language-neutral facts are stored once. Dutch and English

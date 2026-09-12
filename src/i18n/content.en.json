@@ -1,0 +1,113 @@
+{
+  "hero": {
+    "eyebrow": "7 walks in and around Leuven",
+    "title": "Nature nearby. Walking feels good.",
+    "primaryAction": "Discover the walks",
+    "secondaryAction": "Open the overview map",
+    "healthAction": "Walking & health",
+    "imageAlt": "Flower-rich grassland at the edge of Wijgmaalbroek",
+    "imageLabel": "Wijgmaalbroek",
+    "imageCredit": "Photo: Kevin Feytons"
+  },
+  "highlights": [
+    { "value": "7", "label": "mapped-out routes" },
+    { "value": "Leuven", "label": "nature surprisingly close" },
+    { "value": "Free", "label": "open for everyone" }
+  ],
+  "wellbeing": {
+    "eyebrow": "Nature & well-being",
+    "title": "A small step towards more time outside",
+    "intro": "Regular walking helps you stay active. Nature also offers room to slow down, shift your attention and experience your surroundings more consciously.",
+    "movementTitle": "Move at your own pace",
+    "movementText": "Choose a walk that suits your time and abilities. Each route will soon include distance, duration, surface and travel information.",
+    "natureTitle": "Make space to notice",
+    "natureText": "Woodlands, meadows, ponds and historic green spaces invite you to step away from the bustle and experience the season up close.",
+    "action": "Explore what the research says"
+  },
+  "walks": {
+    "eyebrow": "Choose your walk",
+    "title": "Seven ways to see Leuven differently",
+    "intro": "The routes are gradually being expanded with photos, practical information, points of interest and downloadable GPX files.",
+    "status": "Route in preparation",
+    "detailAction": "Explore this walk",
+    "types": {
+      "wetlands": "Valley & meadow",
+      "heritage": "Nature & heritage",
+      "park": "Park & green space",
+      "forest": "Woodland walk",
+      "water": "Water & green space"
+    }
+  },
+  "mapTeaser": {
+    "eyebrow": "All routes at a glance",
+    "title": "Where would you like to walk today?",
+    "text": "See all seven routes together on the map. Zoom in, compare their locations and show your own position while you are out walking.",
+    "action": "View the overview map"
+  },
+  "mapPage": {
+    "eyebrow": "Overview map",
+    "title": "Seven walks around Leuven",
+    "intro": "Use the map to compare the routes. The dashed line at Wijgmaalbroek is an alternative route.",
+    "locationNote": "Your location is only used on your device to show your position on this map.",
+    "mainRoute": "Main route",
+    "variant": "Alternative",
+    "legendTitle": "Walks"
+  },
+  "healthPage": {
+    "eyebrow": "Walking, nature & well-being",
+    "title": "What can a walk in nature do for you?",
+    "intro": "Walking is no miracle cure, but it is a simple way to get moving, spend time outside and give your mind a little room. Here is what research can tell us with reasonable confidence.",
+    "minuteValue": "150 min",
+    "minuteLabel": "of moderate activity per week is a benchmark for adults.",
+    "minuteNote": "According to the World Health Organization; every bit of movement counts.",
+    "factsEyebrow": "Research, without the jargon",
+    "factsTitle": "Three down-to-earth facts",
+    "factsIntro": "The science of nature and well-being is growing. The results are promising, but not magical — which is good news: it is fine to start small.",
+    "facts": [
+      {
+        "number": "01",
+        "title": "Movement helps your mind too",
+        "text": "Regular physical activity is associated with better mental well-being, sleep and cognitive health. A brisk walk can be more than simply getting from A to B."
+      },
+      {
+        "number": "02",
+        "title": "Nature adds something extra to your walk",
+        "text": "A recent review brought together 57 studies and found that being active in natural settings can strengthen mental well-being. Woodlands, meadows and water are wonderful allies for time outdoors."
+      },
+      {
+        "number": "03",
+        "title": "Enjoyment is a powerful ally",
+        "text": "Research on green exercise often finds more enjoyment and a more positive short-term feeling. A route you want to choose again is a great place to start."
+      }
+    ],
+    "tryEyebrow": "Give it a try",
+    "tryTitle": "Make your next walk a mini-break",
+    "tryText": "No performance, no stopwatch. Choose one small focus and let the route do the rest.",
+    "trySteps": [
+      "Choose a route that suits the time you have today.",
+      "Notice three things along the way that you had not seen before.",
+      "Walk at your own pace and notice how you feel afterwards."
+    ],
+    "tryAction": "Choose a walk on the map",
+    "sourcesEyebrow": "Read more",
+    "sourcesTitle": "Where do these insights come from?",
+    "sourcesIntro": "This page draws on authoritative guidelines and systematic reviews. These bring together results from several studies and also highlight uncertainties.",
+    "disclaimer": "Walking can be a valuable addition, but it is not a substitute for professional support with mental-health concerns.",
+    "sources": [
+      {
+        "title": "World Health Organization — Physical activity (2024)",
+        "detail": "On the health benefits of regular physical activity and the guideline for adults.",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity"
+      },
+      {
+        "title": "A systematic review and meta-analysis demonstrating a positive effect of green exercise interventions on mental well-being (2025)",
+        "detail": "A review of 57 studies on physical activity in nature and mental well-being, including the limits of comparisons with indoor exercise.",
+        "url": "https://doi.org/10.1016/j.cresp.2025.100244"
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Discovering and supporting nature in Leuven, one walk at a time.",
+    "developmentNote": "This website is under development. Route information may still change."
+  }
+}

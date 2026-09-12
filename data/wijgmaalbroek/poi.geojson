@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "poi",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3812" } },
-"features": [
-{ "type": "Feature", "properties": { "fid": 1, "Name": "Start Wijgmaalbroek", "Type": "Starting point", "Nr": 10 }, "geometry": { "type": "Point", "coordinates": [ 673347.740140661364421, 679924.042955594137311 ] } }
-]
-}

@@ -1,0 +1,104 @@
+---
+import contentNl from "../i18n/content.nl.json";
+import contentEn from "../i18n/content.en.json";
+import uiNl from "../i18n/ui.nl.json";
+import uiEn from "../i18n/ui.en.json";
+import { sitePath } from "../lib/urls";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "./SiteHeader.astro";
+import SiteFooter from "./SiteFooter.astro";
+
+interface Props {
+  lang: "nl" | "en";
+}
+
+const { lang } = Astro.props;
+const copy = lang === "nl" ? contentNl : contentEn;
+const ui = lang === "nl" ? uiNl : uiEn;
+const healthPath = sitePath(lang === "nl" ? "health/" : "en/health/");
+const alternatePath = sitePath(lang === "nl" ? "en/health/" : "health/");
+const homePath = sitePath(lang === "nl" ? "" : "en/");
+const mapPath = sitePath(lang === "nl" ? "map/" : "en/map/");
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${copy.healthPage.title} | Natuurpunt Leuven`}
+  description={copy.healthPage.intro}
+  canonicalPath={healthPath}
+  alternatePath={alternatePath}
+>
+  <SiteHeader lang={lang} page="health" />
+
+  <main id="main-content" class="health-page">
+    <section class="health-hero">
+      <div class="shell health-hero__grid">
+        <div class="section-intro section-intro--wide">
+          <a class="back-link" href={homePath}>← {ui["navigation.backHome"]}</a>
+          <p class="eyebrow">{copy.healthPage.eyebrow}</p>
+          <h1>{copy.healthPage.title}</h1>
+          <p>{copy.healthPage.intro}</p>
+        </div>
+        <aside class="health-hero__aside">
+          <span class="health-hero__number">{copy.healthPage.minuteValue}</span>
+          <p>{copy.healthPage.minuteLabel}</p>
+          <small>{copy.healthPage.minuteNote}</small>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section health-facts" aria-labelledby="facts-title">
+      <div class="shell">
+        <div class="section-intro section-intro--wide">
+          <p class="eyebrow">{copy.healthPage.factsEyebrow}</p>
+          <h2 id="facts-title">{copy.healthPage.factsTitle}</h2>
+          <p>{copy.healthPage.factsIntro}</p>
+        </div>
+        <div class="health-fact-grid">
+          {copy.healthPage.facts.map((fact) => (
+            <article class="health-fact-card">
+              <span class="health-fact-card__number" aria-hidden="true">{fact.number}</span>
+              <h3>{fact.title}</h3>
+              <p>{fact.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section health-try">
+      <div class="shell health-try__card">
+        <div>
+          <p class="eyebrow eyebrow--light">{copy.healthPage.tryEyebrow}</p>
+          <h2>{copy.healthPage.tryTitle}</h2>
+          <p>{copy.healthPage.tryText}</p>
+        </div>
+        <ol>
+          {copy.healthPage.trySteps.map((step) => <li>{step}</li>)}
+        </ol>
+        <a class="button button--light" href={mapPath}>{copy.healthPage.tryAction} <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section health-sources" aria-labelledby="sources-title">
+      <div class="shell health-sources__grid">
+        <div class="section-intro">
+          <p class="eyebrow">{copy.healthPage.sourcesEyebrow}</p>
+          <h2 id="sources-title">{copy.healthPage.sourcesTitle}</h2>
+          <p>{copy.healthPage.sourcesIntro}</p>
+          <p class="health-disclaimer">{copy.healthPage.disclaimer}</p>
+        </div>
+        <ol class="source-list">
+          {copy.healthPage.sources.map((source) => (
+            <li>
+              <a href={source.url} target="_blank" rel="noreferrer">{source.title} <span aria-hidden="true">↗</span></a>
+              <p>{source.detail}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter lang={lang} />
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import logo from "../../data/logo/logo_leuven.png";
+import uiNl from "../i18n/ui.nl.json";
+import uiEn from "../i18n/ui.en.json";
+import { sitePath } from "../lib/urls";
+
+interface Props {
+  lang: "nl" | "en";
+  page?: "home" | "map" | "health" | "walk";
+}
+
+const { lang, page = "home" } = Astro.props;
+const ui = lang === "nl" ? uiNl : uiEn;
+const homePath = sitePath(lang === "nl" ? "" : "en/");
+const mapPath = sitePath(lang === "nl" ? "map/" : "en/map/");
+const healthPath = sitePath(lang === "nl" ? "health/" : "en/health/");
+const otherLanguagePath = sitePath(
+  page === "map"
+    ? lang === "nl" ? "en/map/" : "map/"
+    : page === "health"
+      ? lang === "nl" ? "en/health/" : "health/"
+      : page === "walk"
+        ? lang === "nl" ? "en/wijgmaalbroek/" : "wijgmaalbroek/"
+      : lang === "nl" ? "en/" : ""
+);
+---
+
+<a class="skip-link" href="#main-content">{ui["navigation.skipToContent"]}</a>
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href={homePath} aria-label="Natuurpunt Leuven">
+      <img src={logo.src} width={logo.width} height={logo.height} alt="Natuurpunt Leuven" />
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <a href={`${homePath}#walks`} aria-current={page === "home" ? undefined : undefined}>
+        {ui["navigation.walks"]}
+      </a>
+      <a href={mapPath} aria-current={page === "map" ? "page" : undefined}>
+        {ui["navigation.map"]}
+      </a>
+      <a href={healthPath} aria-current={page === "health" ? "page" : undefined}>
+        {ui["navigation.health"]}
+      </a>
+    </nav>
+
+    <a class="language-switch" href={otherLanguagePath} lang={lang === "nl" ? "en" : "nl"}>
+      <span class="language-switch__label">{ui["navigation.language"]}</span>
+      <span aria-hidden="true">{lang === "nl" ? "EN" : "NL"}</span>
+      <span class="sr-only">{lang === "nl" ? "English" : "Nederlands"}</span>
+    </a>
+  </div>
+</header>

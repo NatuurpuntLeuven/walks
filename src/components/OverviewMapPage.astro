@@ -1,0 +1,229 @@
+---
+import contentNl from "../i18n/content.nl.json";
+import contentEn from "../i18n/content.en.json";
+import uiNl from "../i18n/ui.nl.json";
+import uiEn from "../i18n/ui.en.json";
+import { walks } from "../data/walks";
+import { loadOverviewRoutes } from "../data/routes";
+import { sitePath } from "../lib/urls";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "./SiteHeader.astro";
+import SiteFooter from "./SiteFooter.astro";
+
+interface Props {
+  lang: "nl" | "en";
+}
+
+const { lang } = Astro.props;
+const copy = lang === "nl" ? contentNl : contentEn;
+const ui = lang === "nl" ? uiNl : uiEn;
+const routeGeoJson = await loadOverviewRoutes();
+const mapPath = sitePath(lang === "nl" ? "map/" : "en/map/");
+const alternatePath = sitePath(lang === "nl" ? "en/map/" : "map/");
+const homePath = sitePath(lang === "nl" ? "" : "en/");
+const mapStrings = {
+  loading: ui["map.loading"],
+  loadError: ui["map.loadError"],
+  locationLoading: ui["map.locationLoading"],
+  locationFound: ui["map.locationFound"],
+  locationUnavailable: ui["map.locationUnavailable"],
+  mainRoute: copy.mapPage.mainRoute,
+  variant: copy.mapPage.variant
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${copy.mapPage.title} | Natuurpunt Leuven`}
+  description={copy.mapPage.intro}
+  canonicalPath={mapPath}
+  alternatePath={alternatePath}
+>
+  <Fragment slot="head">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      is:inline
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+  </Fragment>
+
+  <SiteHeader lang={lang} page="map" />
+
+  <main id="main-content" class="map-page">
+    <section class="map-page-heading">
+      <div class="shell map-heading-grid">
+        <div class="section-intro section-intro--wide">
+          <a class="back-link" href={homePath}>← {ui["navigation.backHome"]}</a>
+          <p class="eyebrow">{copy.mapPage.eyebrow}</p>
+          <h1>{copy.mapPage.title}</h1>
+          <p>{copy.mapPage.intro}</p>
+        </div>
+        <div class="location-panel">
+          <button class="button button--primary" id="show-location" type="button">
+            <span class="location-dot" aria-hidden="true"></span>
+            {ui["map.showMyLocation"]}
+          </button>
+          <p>{copy.mapPage.locationNote}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell map-layout" aria-label={copy.mapPage.title}>
+      <div class="map-frame">
+        <div id="route-map" role="region" aria-label={copy.mapPage.title}></div>
+        <p class="map-status" id="map-status" aria-live="polite">{ui["map.loading"]}</p>
+        <noscript><p class="map-status">JavaScript is required to display the interactive map.</p></noscript>
+      </div>
+
+      <aside class="map-legend" aria-labelledby="legend-title">
+        <h2 id="legend-title">{copy.mapPage.legendTitle}</h2>
+        <ol>
+          {walks.map((walk) => (
+            <li>
+              <span class="legend-swatch">{walk.number}</span>
+              <span>{walk.name}</span>
+            </li>
+          ))}
+        </ol>
+      </aside>
+    </section>
+  </main>
+
+  <SiteFooter lang={lang} />
+
+  <script define:vars={{ routeGeoJson, mapStrings }}>
+    const mapElement = document.getElementById("route-map");
+    const statusElement = document.getElementById("map-status");
+    const locationButton = document.getElementById("show-location");
+    const Leaflet = window.L;
+
+    if (!mapElement || !statusElement || !Leaflet) {
+      if (statusElement) statusElement.textContent = mapStrings.loadError;
+    } else {
+      const map = Leaflet.map(mapElement, {
+        zoomControl: true,
+        scrollWheelZoom: false
+      });
+
+      Leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      const getRouteNumber = (feature) => String(feature?.properties?.Nr ?? "").replace(/[^0-9].*$/, "");
+      const isVariant = (feature) => feature?.properties?.type === "Variant";
+      // Pixel offsets deliberately keep each number beside its route rather than on it.
+      const labelOffsets = {
+        "1": [34, -30],
+        "2": [42, 24],
+        "3": [-38, -24],
+        "4": [-36, 25],
+        "5": [35, -24],
+        "6": [38, 4],
+        "7": [-36, 0]
+      };
+      const routeStyle = (feature, halo = false) => ({
+        color: halo ? "#ffffff" : "#147a42",
+        weight: halo ? (isVariant(feature) ? 9 : 10) : (isVariant(feature) ? 4 : 5),
+        opacity: halo ? 0.94 : 0.96,
+        dashArray: isVariant(feature) ? "9 9" : undefined,
+        lineCap: "round",
+        lineJoin: "round"
+      });
+
+      Leaflet.geoJSON(routeGeoJson, {
+        style(feature) {
+          return routeStyle(feature, true);
+        },
+        interactive: false
+      }).addTo(map);
+
+      const routeLayer = Leaflet.geoJSON(routeGeoJson, {
+        style(feature) {
+          return routeStyle(feature);
+        },
+        onEachFeature(feature, layer) {
+          const popup = document.createElement("div");
+          const title = document.createElement("strong");
+          const type = document.createElement("span");
+          title.textContent = feature?.properties?.name || "";
+          type.textContent = feature?.properties?.type === "Variant"
+            ? mapStrings.variant
+            : mapStrings.mainRoute;
+          popup.append(title, document.createElement("br"), type);
+          layer.bindPopup(popup);
+
+          if (!isVariant(feature) && typeof layer.getBounds === "function") {
+            const routeNumber = getRouteNumber(feature);
+            const [offsetX, offsetY] = labelOffsets[routeNumber] || [32, -28];
+            const marker = Leaflet.marker(layer.getBounds().getCenter(), {
+              icon: Leaflet.divIcon({
+                className: "route-number-marker-wrap",
+                html: `<span class="route-number-marker">${routeNumber}</span>`,
+                iconSize: [34, 34],
+                iconAnchor: [17 - offsetX, 17 - offsetY]
+              }),
+              keyboard: false
+            }).addTo(map);
+            marker.bindTooltip(feature?.properties?.name || "", { direction: "top", offset: [0, -16] });
+          }
+        }
+      }).addTo(map);
+
+      if (routeLayer.getBounds().isValid()) {
+        map.fitBounds(routeLayer.getBounds(), { padding: [24, 24] });
+      } else {
+        map.setView([50.88, 4.70], 11);
+      }
+
+      statusElement.textContent = "";
+      let locationMarker;
+      let accuracyCircle;
+
+      map.on("locationfound", (event) => {
+        if (locationMarker) locationMarker.remove();
+        if (accuracyCircle) accuracyCircle.remove();
+
+        accuracyCircle = Leaflet.circle(event.latlng, {
+          radius: event.accuracy,
+          color: "#2463eb",
+          weight: 1,
+          fillColor: "#60a5fa",
+          fillOpacity: 0.15
+        }).addTo(map);
+
+        locationMarker = Leaflet.circleMarker(event.latlng, {
+          radius: 8,
+          color: "#ffffff",
+          weight: 3,
+          fillColor: "#2463eb",
+          fillOpacity: 1
+        }).addTo(map);
+
+        statusElement.textContent = mapStrings.locationFound;
+        locationButton.disabled = false;
+      });
+
+      map.on("locationerror", () => {
+        statusElement.textContent = mapStrings.locationUnavailable;
+        locationButton.disabled = false;
+      });
+
+      locationButton?.addEventListener("click", () => {
+        statusElement.textContent = mapStrings.locationLoading;
+        locationButton.disabled = true;
+        map.locate({ setView: true, maxZoom: 16, enableHighAccuracy: true });
+      });
+
+      mapElement.addEventListener("focusin", () => map.scrollWheelZoom.enable());
+      mapElement.addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
+    }
+  </script>
+</BaseLayout>
